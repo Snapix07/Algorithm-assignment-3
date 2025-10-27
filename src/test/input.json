@@ -23,6 +23,49 @@
         {"from": "C", "to": "D", "weight": 3},
         {"from": "B", "to": "D", "weight": 5}
       ]
+    },
+    {
+      "id": 3,
+      "nodes": ["K", "L", "M", "N", "O", "P"],
+      "edges": [
+        {"from": "K", "to": "L", "weight": 15},
+        {"from": "L", "to": "M", "weight": 8},
+        {"from": "M", "to": "N", "weight": 22},
+        {"from": "N", "to": "O", "weight": 7},
+        {"from": "O", "to": "P", "weight": 11},
+        {"from": "P", "to": "K", "weight": 10},
+        {"from": "M", "to": "P", "weight": 12}
+      ]
+    },
+    {
+      "id": 4,
+      "nodes": ["X", "Y", "Z", "W"],
+      "edges": [
+        {"from": "X", "to": "Y", "weight": 4},
+        {"from": "X", "to": "Z", "weight": 1},
+        {"from": "X", "to": "W", "weight": 6},
+        {"from": "Y", "to": "Z", "weight": 2},
+        {"from": "Y", "to": "W", "weight": 5},
+        {"from": "Z", "to": "W", "weight": 3}
+      ]
+    },
+    {
+      "id": 5,
+      "nodes": ["R1", "R2", "R3", "R4", "R5", "R6", "R7", "R8"],
+      "edges": [
+        {"from": "R1", "to": "R2", "weight": 12},
+        {"from": "R2", "to": "R3", "weight": 5},
+        {"from": "R3", "to": "R4", "weight": 15},
+        {"from": "R4", "to": "R5", "weight": 3},
+        {"from": "R5", "to": "R6", "weight": 8},
+        {"from": "R6", "to": "R7", "weight": 10},
+        {"from": "R7", "to": "R8", "weight": 6},
+        {"from": "R8", "to": "R1", "weight": 14},
+        {"from": "R1", "to": "R5", "weight": 9},
+        {"from": "R2", "to": "R6", "weight": 11},
+        {"from": "R3", "to": "R7", "weight": 7},
+        {"from": "R4", "to": "R8", "weight": 4}
+      ]
     }
   ]
 }
