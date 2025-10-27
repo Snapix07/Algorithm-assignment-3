@@ -1,0 +1,96 @@
+{
+  "results": [
+    {
+      "graph_id": 1,
+      "input_stats": {
+        "vertices": 5,
+        "edges": 7
+      },
+      "kruskal": {
+        "mst_edges": [
+          { "from": "B", "to": "C", "weight": 2 },
+          { "from": "A", "to": "C", "weight": 3 },
+          { "from": "B", "to": "D", "weight": 5 },
+          { "from": "D", "to": "E", "weight": 6 }
+        ],
+        "total_cost": 16,
+        "operations_count": 29,
+        "execution_time_ms": 2,57
+      }
+    },
+    {
+      "graph_id": 2,
+      "input_stats": {
+        "vertices": 4,
+        "edges": 5
+      },
+      "kruskal": {
+        "mst_edges": [
+          { "from": "A", "to": "B", "weight": 1 },
+          { "from": "B", "to": "C", "weight": 2 },
+          { "from": "C", "to": "D", "weight": 3 }
+        ],
+        "total_cost": 6,
+        "operations_count": 21,
+        "execution_time_ms": 0,05
+      }
+    },
+    {
+      "graph_id": 3,
+      "input_stats": {
+        "vertices": 6,
+        "edges": 7
+      },
+      "kruskal": {
+        "mst_edges": [
+          { "from": "N", "to": "O", "weight": 7 },
+          { "from": "L", "to": "M", "weight": 8 },
+          { "from": "P", "to": "K", "weight": 10 },
+          { "from": "O", "to": "P", "weight": 11 },
+          { "from": "M", "to": "P", "weight": 12 }
+        ],
+        "total_cost": 48,
+        "operations_count": 33,
+        "execution_time_ms": 0,05
+      }
+    },
+    {
+      "graph_id": 4,
+      "input_stats": {
+        "vertices": 4,
+        "edges": 6
+      },
+      "kruskal": {
+        "mst_edges": [
+          { "from": "X", "to": "Z", "weight": 1 },
+          { "from": "Y", "to": "Z", "weight": 2 },
+          { "from": "Z", "to": "W", "weight": 3 }
+        ],
+        "total_cost": 6,
+        "operations_count": 22,
+        "execution_time_ms": 0,03
+      }
+    },
+    {
+      "graph_id": 5,
+      "input_stats": {
+        "vertices": 8,
+        "edges": 12
+      },
+      "kruskal": {
+        "mst_edges": [
+          { "from": "R4", "to": "R5", "weight": 3 },
+          { "from": "R4", "to": "R8", "weight": 4 },
+          { "from": "R2", "to": "R3", "weight": 5 },
+          { "from": "R7", "to": "R8", "weight": 6 },
+          { "from": "R3", "to": "R7", "weight": 7 },
+          { "from": "R5", "to": "R6", "weight": 8 },
+          { "from": "R1", "to": "R5", "weight": 9 }
+        ],
+        "total_cost": 42,
+        "operations_count": 48,
+        "execution_time_ms": 0,09
+      }
+    }
+  ]
+}

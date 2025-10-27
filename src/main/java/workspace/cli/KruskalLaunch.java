@@ -4,6 +4,8 @@ import com.google.gson.*;
 import workspace.algorithm.*;
 
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 
 public class KruskalLaunch {
@@ -62,6 +64,14 @@ public class KruskalLaunch {
         }
 
         json.append("  ]\n}");
-        System.out.println(json.toString());
+        writeToFile("src/test/output.json", json.toString());
+    }
+
+    public static void writeToFile(String filePath, String content) {
+        try (FileWriter writer = new FileWriter(filePath)) {
+            writer.write(content);
+            writer.flush();
+        } catch (IOException e) {
+        }
     }
 }
