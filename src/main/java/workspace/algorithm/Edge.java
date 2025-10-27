@@ -14,6 +14,6 @@ public class Edge {
 
     @Override
     public String toString() {
-        return "{ \"from\": \"" + start + "\", \"to\": " + end + "\", \"weight\": " + weight + " }";
+        return "{ \"from\": \"" + start + "\", \"to\": \"" + end + "\", \"weight\": " + weight + " }";
     }
 }

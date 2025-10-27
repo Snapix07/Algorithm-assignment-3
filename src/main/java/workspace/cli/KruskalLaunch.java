@@ -1,52 +1,67 @@
 package workspace.cli;
 
-import workspace.algorithm.Edge;
-import workspace.algorithm.Graph;
-import workspace.algorithm.Kruskal;
-import workspace.algorithm.Node;
+import com.google.gson.*;
+import workspace.algorithm.*;
+
+import java.io.FileReader;
+import java.util.List;
 
 public class KruskalLaunch {
-    public static void main(final String[] args) {
-        Node a = new Node("A");
-        Node b = new Node("B");
-        Node c = new Node("C");
-        Node d = new Node("D");
-        Node e = new Node("E");
+    public static void main(final String[] args) throws Exception {
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(List.class, new JSONload())
+                .create();
 
-        // Create edges
-        Edge ab = new Edge(a, b, 4);
-        Edge ac = new Edge(a, c, 1);
-        Edge bc = new Edge(b, c, 2);
-        Edge bd = new Edge(b, d, 5);
-        Edge cd = new Edge(c, d, 8);
-        Edge ce = new Edge(c, e, 10);
-        Edge de = new Edge(d, e, 2);
+        FileReader reader = new FileReader("src/test/input.json");
+        List<Graph> graphs = gson.fromJson(reader, List.class);
+        reader.close();
 
-        // Add edges to nodes
-        a.Add(ab); a.Add(ac);
-        b.Add(ab); b.Add(bc); b.Add(bd);
-        c.Add(ac); c.Add(bc); c.Add(cd); c.Add(ce);
-        d.Add(bd); d.Add(cd); d.Add(de);
-        e.Add(ce); e.Add(de);
+        StringBuilder json = new StringBuilder();
+        json.append("{\n  \"results\": [\n");
 
-        // Create graph
-        Graph graph = new Graph();
-        graph.nodes.add(a); graph.nodes.add(b); graph.nodes.add(c);
-        graph.nodes.add(d); graph.nodes.add(e);
-        graph.edges.add(ab); graph.edges.add(ac); graph.edges.add(bc);
-        graph.edges.add(bd); graph.edges.add(cd); graph.edges.add(ce);
-        graph.edges.add(de);
+        for (int i = 0; i < graphs.size(); i++) {
+            Graph graph = graphs.get(i);
 
-        // Run Kruskal's algorithm
-        Graph mst = Kruskal.kruskal(graph);
+            long start = System.nanoTime();
+            Graph mst = Kruskal.kruskal(graph);
+            long end = System.nanoTime();
 
-        // Print results
-        System.out.println("Minimum Spanning Tree Edges:");
-        int totalWeight = 0;
-        for (Edge edge : mst.edges) {
-            System.out.println(edge);
-            totalWeight += edge.weight;
+            double execTime = (end - start) / 1_000_000.0;
+            int totalCost = Kruskal.getTotalCost();
+            int ops = Kruskal.getOperationCount();
+
+            json.append("    {\n");
+            json.append("      \"graph_id\": ").append(graph.id).append(",\n");
+            json.append("      \"input_stats\": {\n");
+            json.append("        \"vertices\": ").append(graph.nodes.size()).append(",\n");
+            json.append("        \"edges\": ").append(graph.edges.size()).append("\n");
+            json.append("      },\n");
+
+            json.append("      \"kruskal\": {\n");
+            json.append("        \"mst_edges\": [\n");
+
+            for (int j = 0; j < mst.edges.size(); j++) {
+                Edge e = mst.edges.get(j);
+                json.append("          { \"from\": \"").append(e.start)
+                        .append("\", \"to\": \"").append(e.end)
+                        .append("\", \"weight\": ").append(e.weight).append(" }");
+                if (j < mst.edges.size() - 1) json.append(",");
+                json.append("\n");
+            }
+
+            json.append("        ],\n");
+            json.append("        \"total_cost\": ").append(totalCost).append(",\n");
+            json.append("        \"operations_count\": ").append(ops).append(",\n");
+            json.append("        \"execution_time_ms\": ")
+                    .append(String.format("%.2f", execTime)).append("\n");
+            json.append("      }\n");
+            json.append("    }");
+
+            if (i < graphs.size() - 1) json.append(",");
+            json.append("\n");
         }
-        System.out.println("Total weight: " + totalWeight);
+
+        json.append("  ]\n}");
+        System.out.println(json.toString());
     }
 }
