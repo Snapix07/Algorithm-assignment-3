@@ -1,43 +1,58 @@
 package workspace.algorithm;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 public class Kruskal {
-    public static Graph kruskal(Graph graph) {
-        // Create result MST graph
-        Graph mst = new Graph();
-        mst.nodes.addAll(graph.nodes);
+    public static class Result {
+        public List<Edge> mstEdges = new ArrayList<>();
+        public int totalCost = 0;
+        public int operations = 0;
+        public double execTimeMs = 0.0;
+    }
 
-        // Initialize DSU
-        DSU dsu = new DSU();
-        for (Node node : graph.nodes) {
-            dsu.makeSet(node);
+    private static class UnionFind {
+        private Map<Node, Node> parent = new HashMap<>();
+
+        public Node find(Node x) {
+            if (parent.get(x) == x) return x;
+            parent.put(x, find(parent.get(x)));
+            return parent.get(x);
         }
 
-        // Sort edges by weight
-        List<Edge> sortedEdges = new ArrayList<>(graph.edges);
-        Collections.sort(sortedEdges, Comparator.comparingInt(edge -> edge.weight));
+        public void union(Node a, Node b) {
+            Node pa = find(a);
+            Node pb = find(b);
+            if (pa != pb) parent.put(pa, pb);
+        }
 
-        // Process edges in increasing order of weight
-        for (Edge edge : sortedEdges) {
-            Node u = edge.start;
-            Node v = edge.end;
+        public void makeSet(Collection<Node> nodes) {
+            for (Node n : nodes) parent.put(n, n);
+        }
+    }
 
-            // Check if including this edge creates a cycle
-            if (dsu.find(u) != dsu.find(v)) {
-                mst.edges.add(edge);
-                dsu.union(u, v);
-            }
+    public static Result run(Graph graph) {
+        long start = System.nanoTime();
+        Result result = new Result();
 
-            // Stop when we have n-1 edges (for n nodes)
-            if (mst.edges.size() == graph.nodes.size() - 1) {
-                break;
+        List<Edge> edges = new ArrayList<>(graph.edges);
+        edges.sort(Comparator.comparingInt(e -> e.weight));
+
+        UnionFind uf = new UnionFind();
+        uf.makeSet(graph.nodes);
+
+        for (Edge e : edges) {
+            result.operations++;
+            Node u = e.start;
+            Node v = e.end;
+            if (uf.find(u) != uf.find(v)) {
+                uf.union(u, v);
+                result.mstEdges.add(e);
+                result.totalCost += e.weight;
             }
         }
 
-        return mst;
+        long end = System.nanoTime();
+        result.execTimeMs = (end - start) / 1_000_000.0;
+        return result;
     }
 }
